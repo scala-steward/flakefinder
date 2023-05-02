@@ -1,19 +1,24 @@
 package services
 
 import dtos.xml.{JUnitXMLDto, TestSuiteXMLDto}
-import play.api.Logger
+import play.api.{Configuration, Logger}
 
 import javax.inject.Inject
 import cats.implicits._
+import models.config.DBConfig
+import repositories.TestSuiteRepository
+
 import javax.inject.Singleton
 
 
 @Singleton
-case class JUnitService @Inject()() {
+case class JUnitService @Inject()(testSuiteRepo: TestSuiteRepository, config: Configuration) {
+
+  val dbConfig = config.get[DBConfig]("db")
 
   val logger: Logger = Logger(this.getClass())
 
-  protected type InMemStorage = Map[String, Map[String, List[TestSuiteXMLDto]]]
+  type InMemStorage = Map[String, Map[String, List[TestSuiteXMLDto]]]
   // Organisation Id -> Correlation Id -> TestStats
   var inMemStorage: InMemStorage = Map[String, Map[String, List[TestSuiteXMLDto]]]()
 
@@ -24,6 +29,8 @@ case class JUnitService @Inject()() {
     val filteredTestSuites = xml.testsuite.filter(_.testcase.size =!= 0)
 
     inMemStorage = inMemStorage |+| Map(organisationId -> Map(correlationId -> filteredTestSuites))
+
+    println("DBConfig = " + dbConfig)
 
     logger.info(s"Done parsing XML for organisationId $organisationId / correlationId: $correlationId")
 
