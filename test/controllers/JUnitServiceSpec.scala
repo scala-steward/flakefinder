@@ -1,20 +1,22 @@
 package controllers
 
 import dtos.xml.JUnitXMLDto
-import org.scalatestplus.play._
-import org.scalatestplus.play.guice._
+import models.config.DBConfig
+import org.mockito.MockitoSugar
+import play.api.Configuration
 import play.api.test._
 import play.api.test.Helpers._
 import services.JUnitService
-
 import ru.tinkoff.phobos.decoding._
 import ru.tinkoff.phobos.syntax._
 import ru.tinkoff.phobos.derivation.semiauto._
 
 import scala.io.Source
 import scala.util.Random
-
 import pprint.pprintln
+import repositories.TestSuiteRepository
+
+import org.scalatest.wordspec.AnyWordSpec
 
 /**
  * Add your spec here.
@@ -22,13 +24,16 @@ import pprint.pprintln
  *
  * For more information, see https://www.playframework.com/documentation/latest/ScalaTestingWithScalaTest
  */
-class JUnitServiceSpec extends PlaySpec {
+class JUnitServiceSpec extends AnyWordSpec with MockitoSugar {
 
   "JUnitService" should {
 
     "load valid XML from three test runs with the same correlation id" in {
 
-      val sut = JUnitService()
+      val mockRepo = mock[TestSuiteRepository]
+      val mockConfig = mock[Configuration]
+
+      val sut = JUnitService(mockRepo, mockConfig)
 
       val organisationId = "organisation-" + Random.alphanumeric.take(10)
       val correlationId = "correlation-" + Random.alphanumeric.take(10)
