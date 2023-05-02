@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="56.543" tests="2" failures="0">
+    <testsuite name="Root Suite" timestamp="2023-05-02T19:56:12" tests="0" file="cypress/integration/wf-online.feature" time="0.000" failures="0">
+    </testsuite>
+    <testsuite name="Online Flow" timestamp="2023-05-02T19:56:13" tests="2" time="55.657" failures="0">
+        <testcase name="Online person initiates" time="36.446">
+        </testcase>
+        <testcase name="Online person initiates with many people" time="19.304">
+        </testcase>
+    </testsuite>
+</testsuites>

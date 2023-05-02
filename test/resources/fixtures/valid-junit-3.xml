@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="335.301" tests="4" failures="0">
+    <testsuite name="Root Suite" timestamp="2023-05-02T19:37:36" tests="0" file="cypress/integration/fct-accounts.feature" time="0.000" failures="0">
+    </testsuite>
+    <testsuite name="Make an account" timestamp="2023-05-02T19:37:36" tests="4" time="334.627" failures="0">
+        <testcase name="Make an account one" time="280.908">
+        </testcase>
+        <testcase name="Make an account two" time="18.656">
+        </testcase>
+        <testcase name="Make an account three" time="16.056">
+        </testcase>
+        <testcase name="Make an account four" time="17.208">
+        </testcase>
+    </testsuite>
+</testsuites>

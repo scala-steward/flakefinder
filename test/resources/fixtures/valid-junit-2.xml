@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="326.912" tests="3" failures="0">
+    <testsuite name="Root Suite" timestamp="2023-05-02T19:25:07" tests="0" file="cypress/integration/fct-comments.feature" time="0.000" failures="0">
+    </testsuite>
+    <testsuite name="Make a Comment" timestamp="2023-05-02T19:25:09" tests="3" time="325.506" failures="0">
+        <testcase name="Make a Comment Happy Path" time="125.821">
+        </testcase>
+        <testcase name="Make a Comment Unhappy Path" time="89.703">
+        </testcase>
+        <testcase name="Make a Comment Super-Unhappy Path" time="108.254">
+        </testcase>
+    </testsuite>
+</testsuites>
