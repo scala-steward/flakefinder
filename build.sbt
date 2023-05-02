@@ -17,6 +17,12 @@ libraryDependencies ++= List(
   // XML Parsing
   "ru.tinkoff" %% "phobos-core" % "0.20.0",
 
+  // Database
+  "org.tpolecat"  %% "doobie-core"     % "1.0.0-RC1",
+  "org.tpolecat"  %% "doobie-hikari"   % "1.0.0-RC1", // HikariCP transactor.
+  "org.tpolecat"  %% "doobie-postgres" % "1.0.0-RC1", // Postgres driver 42.3.1 + type mappings.
+  "org.postgresql" % "postgresql"      % "42.6.0",
+
   // Test
   "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test,
   "com.lihaoyi"            %% "pprint"             % "0.8.1" % Test,
