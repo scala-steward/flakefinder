@@ -17,3 +17,16 @@ This project currently only supports a postgres database
 | DB_HOST | The host of your database                            |
 | DB_USERNAME | The username to connect to your database as          |
 | DB_PASSWORD | The password to use when connecting to your database |
+
+# Running: Docker Example
+
+```
+docker build -f build/Dockerfile -t flake .
+docker run flake -e DB_PASSWORD=foo -e DB_USERNAME=bar -e DB_HOST=localhost
+```
+
+# Running: CLI/SBT Example
+
+```
+DB_PASSWORD=foo DB_USERNAME=bar DB_HOST=localhost sbt run
+```
