@@ -9,6 +9,7 @@ case class TestSummaryDto(
                         passes: Int,
                         failures: Int,
                         unique_builds: Int,
+                        average_run_time_seconds: Double,
                         most_common_failure_message: Option[String]
                       )
 

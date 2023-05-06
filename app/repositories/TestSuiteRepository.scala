@@ -22,7 +22,7 @@ case class TestSuiteRepository @Inject() (config: Configuration) {
 
   val xa = Transactor.fromDriverManager[IO](
     driver = "org.postgresql.Driver",       // driver classname
-    url    = s"jdbc:postgresql:${dbConfig.host}:5432/flakefinder", // connect URL (driver-specific)
+    url    = s"jdbc:postgresql://${dbConfig.host}:5432/flakefinder", // connect URL (driver-specific)
     user   = dbConfig.username,             // user
     pass   = dbConfig.password,             // password
   )
@@ -40,6 +40,8 @@ case class TestSuiteRepository @Inject() (config: Configuration) {
              COUNT(CASE WHEN test_pass=true THEN 1 END) AS passes,
              COUNT(CASE WHEN test_pass=false THEN 1 END) AS failures,
              COUNT(DISTINCT(build_id)) AS unique_builds,
+             ROUND(AVG(test_time), 2) AS average_run_time_seconds,
+
              failure_message AS most_common_failure_message
           FROM test_cases
           WHERE organisation_id=$organisationId
