@@ -1,17 +1,14 @@
 package controllers
 
+import cats.effect.unsafe.implicits
 import dtos.JUnitContentDto
 import dtos.xml.JUnitXMLDto
+import play.api.mvc._
+import ru.tinkoff.phobos.decoding._
+import services.JUnitService
 
 import javax.inject._
-import play.api._
-import play.api.mvc._
-import services.JUnitService
-import cats.implicits._
-
-import ru.tinkoff.phobos.decoding._
-import ru.tinkoff.phobos.syntax._
-import ru.tinkoff.phobos.derivation.semiauto._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -27,14 +24,16 @@ class JUnitController @Inject()(val controllerComponents: ControllerComponents, 
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  def load(): Action[JUnitContentDto] = Action(parse.json[JUnitContentDto]) { implicit request: Request[JUnitContentDto] =>
+  def load(): Action[JUnitContentDto] = Action.async(parse.json[JUnitContentDto]) { implicit request: Request[JUnitContentDto] =>
     XmlDecoder[JUnitXMLDto].decode(request.body.xml) match {
       case Left(err) => throw new Exception(s"Unexpected error: expected Right(...) but got Left($err)")
       case Right(xml) =>
 
         val result = junitService.load(request.body.organisationId, request.body.correlationId, xml)
 
-        Ok(views.html.index())
+        result.unsafeToFuture()(implicits.global).map { _ =>
+          Ok(views.html.index())
+        }
     }
   }
 }

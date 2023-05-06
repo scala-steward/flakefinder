@@ -5,7 +5,7 @@ import ru.tinkoff.phobos.derivation.semiauto.{deriveElementDecoder, deriveElemen
 import ru.tinkoff.phobos.encoding.ElementEncoder
 import ru.tinkoff.phobos.syntax.attr
 
-case class TestCaseXMLDto(@attr name: String, @attr time: Double)
+case class TestCaseXMLDto(@attr name: String, @attr time: Double, failure: Option[TestCaseFailureXMLDto])
 
 object TestCaseXMLDto {
   implicit val elementEncoder: ElementEncoder[TestCaseXMLDto] = deriveElementEncoder

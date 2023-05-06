@@ -1,10 +1,12 @@
 package services
 
+import cats.effect.IO
 import dtos.xml.{JUnitXMLDto, TestSuiteXMLDto}
 import play.api.{Configuration, Logger}
 
 import javax.inject.Inject
 import cats.implicits._
+import doobie.implicits._
 import models.config.DBConfig
 import repositories.TestSuiteRepository
 
@@ -22,18 +24,16 @@ case class JUnitService @Inject()(testSuiteRepo: TestSuiteRepository, config: Co
   // Organisation Id -> Correlation Id -> TestStats
   var inMemStorage: InMemStorage = Map[String, Map[String, List[TestSuiteXMLDto]]]()
 
-  def load(organisationId: String, correlationId: String, xml: JUnitXMLDto): InMemStorage = {
+  def load(organisationId: String, correlationId: String, xml: JUnitXMLDto): IO[Unit] = {
     logger.info(s"Parsing XML for organisationId $organisationId / correlationId: $correlationId")
 
     // Filter out suites with 0 tests
     val filteredTestSuites = xml.testsuite.filter(_.testcase.size =!= 0)
 
-    inMemStorage = inMemStorage |+| Map(organisationId -> Map(correlationId -> filteredTestSuites))
-
-    println("DBConfig = " + dbConfig)
+    val result = testSuiteRepo.load(organisationId, correlationId, xml.copy(testsuite = filteredTestSuites)).transact(testSuiteRepo.xa)
 
     logger.info(s"Done parsing XML for organisationId $organisationId / correlationId: $correlationId")
 
-    inMemStorage
+    result
   }
 }

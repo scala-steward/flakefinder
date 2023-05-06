@@ -2,8 +2,10 @@
 <testsuites name="Mocha Tests" time="335.301" tests="4" failures="0">
     <testsuite name="Root Suite" timestamp="2023-05-02T19:37:36" tests="0" file="cypress/integration/fct-accounts.feature" time="0.000" failures="0">
     </testsuite>
-    <testsuite name="Make an account" timestamp="2023-05-02T19:37:36" tests="4" time="334.627" failures="0">
+    <testsuite name="Make an account" timestamp="2023-05-02T19:37:36" tests="4" time="334.627" failures="1">
         <testcase name="Make an account one" time="280.908">
+            <failure message="Timed out retrying after 30000ms: Expected to find element: `[data-qa=welcome-message]`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying after 30000ms: Expected to find element: `[data-qa=welcome-message]`, but never found it.
+   More Details here]]></failure>
         </testcase>
         <testcase name="Make an account two" time="18.656">
         </testcase>

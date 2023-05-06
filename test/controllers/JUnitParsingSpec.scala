@@ -24,19 +24,11 @@ import org.scalatest.wordspec.AnyWordSpec
  *
  * For more information, see https://www.playframework.com/documentation/latest/ScalaTestingWithScalaTest
  */
-class JUnitServiceSpec extends AnyWordSpec with MockitoSugar {
+class JUnitParsingSpec extends AnyWordSpec with MockitoSugar {
 
-  "JUnitService" should {
+  "JUnitParser" should {
 
-    "load valid XML from three test runs with the same correlation id" in {
-
-      val mockRepo = mock[TestSuiteRepository]
-      val mockConfig = mock[Configuration]
-
-      val sut = JUnitService(mockRepo, mockConfig)
-
-      val organisationId = "organisation-" + Random.alphanumeric.take(10)
-      val correlationId = "correlation-" + Random.alphanumeric.take(10)
+    "parse all junit sample files" in {
 
       val xml1 = XmlDecoder[JUnitXMLDto].decode(Source.fromResource("fixtures/valid-junit-1.xml").getLines().mkString("\n")) match {
         case Left(err) =>
@@ -49,12 +41,10 @@ class JUnitServiceSpec extends AnyWordSpec with MockitoSugar {
 
       println("1 = " + xml1)
 
-      sut.load(organisationId, correlationId, xml1)
-      sut.load(organisationId, correlationId, xml2)
-      sut.load(organisationId, correlationId, xml3)
-
-      println("Final in-mem storage = ")
-      pprint.pprintln(sut.inMemStorage)
+      println("Final parsed objects = ")
+      pprint.pprintln(xml1)
+      pprint.pprintln(xml2)
+      pprint.pprintln(xml3)
     }
   }
 }

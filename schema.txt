@@ -1,0 +1,12 @@
+create table public.test_cases
+(
+    suite_name      text             not null,
+    timestamp       timestamp        not null,
+    run_time        double precision not null,
+    correlation_id  text             not null,
+    test_name       text             not null,
+    test_time       double precision not null,
+    test_pass       boolean,
+    organisation_id text             not null,
+    failure_message text
+);
