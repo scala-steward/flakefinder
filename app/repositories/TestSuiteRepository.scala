@@ -22,7 +22,7 @@ case class TestSuiteRepository @Inject() (config: Configuration) {
 
   val xa = Transactor.fromDriverManager[IO](
     driver = "org.postgresql.Driver",       // driver classname
-    url    = "jdbc:postgresql:flakefinder", // connect URL (driver-specific)
+    url    = s"jdbc:postgresql:${dbConfig.host}:5432/flakefinder", // connect URL (driver-specific)
     user   = dbConfig.username,             // user
     pass   = dbConfig.password,             // password
   )
