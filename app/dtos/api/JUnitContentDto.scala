@@ -4,7 +4,7 @@ import play.api.libs.json.{Format, Json}
 
 case class JUnitContentDto(
                           organisationId: String,
-                          correlationId: String,
+                          buildId: String,
                           xml: String
                           )
 

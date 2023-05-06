@@ -9,7 +9,7 @@ case class TestCaseDto(
                         suite_name: String,
                         timestamp: Instant,
                         run_time: Double,
-                        correlation_id: String,
+                        build_id: String,
                         test_name: String,
                         test_time: Double,
                         test_pass: Boolean,
@@ -18,15 +18,17 @@ case class TestCaseDto(
 
 object TestCaseDto {
 
-  def fromModel(xml: JUnitXMLDto, organisationId: String, correlationId: String): List[TestCaseDto] = {
+  private def sanitiseTimestamp(timestamp: String) = if (timestamp.endsWith("Z")) timestamp else timestamp + "Z"
+
+  def fromModel(xml: JUnitXMLDto, organisationId: String, buildId: String): List[TestCaseDto] = {
     xml.testsuite.flatMap { testSuite =>
       testSuite.testcase.map { testCase =>
         TestCaseDto(
           organisation_id = organisationId,
           suite_name = testSuite.name,
-          timestamp = Instant.parse(testSuite.timestamp),
+          timestamp = Instant.parse(sanitiseTimestamp(testSuite.timestamp)),
           run_time = testSuite.time,
-          correlation_id = correlationId,
+          build_id = buildId,
           test_name = testCase.name,
           test_time = testCase.time,
           test_pass = testCase.failure.isEmpty,

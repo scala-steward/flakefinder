@@ -7,6 +7,7 @@ import play.api.{Configuration, Logger}
 import javax.inject.Inject
 import cats.implicits._
 import doobie.implicits._
+import dtos.persistence.TestSummaryDto
 import models.config.DBConfig
 import repositories.TestSuiteRepository
 
@@ -20,20 +21,22 @@ case class JUnitService @Inject()(testSuiteRepo: TestSuiteRepository, config: Co
 
   val logger: Logger = Logger(this.getClass())
 
-  type InMemStorage = Map[String, Map[String, List[TestSuiteXMLDto]]]
-  // Organisation Id -> Correlation Id -> TestStats
-  var inMemStorage: InMemStorage = Map[String, Map[String, List[TestSuiteXMLDto]]]()
+  val xa = testSuiteRepo.xa
 
-  def load(organisationId: String, correlationId: String, xml: JUnitXMLDto): IO[Unit] = {
-    logger.info(s"Parsing XML for organisationId $organisationId / correlationId: $correlationId")
+  def load(organisationId: String, buildId: String, xml: JUnitXMLDto): IO[Unit] = {
+    logger.info(s"Parsing XML for organisationId $organisationId / buildId: $buildId")
 
     // Filter out suites with 0 tests
     val filteredTestSuites = xml.testsuite.filter(_.testcase.size =!= 0)
 
-    val result = testSuiteRepo.load(organisationId, correlationId, xml.copy(testsuite = filteredTestSuites)).transact(testSuiteRepo.xa)
+    val result = testSuiteRepo.load(organisationId, buildId, xml.copy(testsuite = filteredTestSuites)).transact(xa)
 
-    logger.info(s"Done parsing XML for organisationId $organisationId / correlationId: $correlationId")
+    logger.info(s"Done parsing XML for organisationId $organisationId / buildId: $buildId")
 
     result
+  }
+
+  def getSummary(organisationId: String): IO[List[TestSummaryDto]] = {
+    testSuiteRepo.getSummary(organisationId).transact(xa)
   }
 }

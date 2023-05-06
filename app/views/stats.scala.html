@@ -1,0 +1,36 @@
+@import dtos.persistence.TestSummaryDto
+@(organisationId: String, summary: List[TestSummaryDto])
+
+@main("Test Stats for " + organisationId) {
+  <h1>Test Stats for @organisationId</h1>
+  <div>
+    <table border="1" width="100%">
+    <tr>
+      <th width="30%">
+        Test Name
+      </th>
+      <th width="5%">
+        All time passes
+      </th>
+      <th width="5%">
+        All time failures
+      </th>
+      <th width="5%">
+        Present in unique builds
+      </th>
+      <th width="55%">
+        Most common failure message
+      </th>
+    </tr>
+    @summary.map { test =>
+      <tr>
+        <td>@test.test_name</td>
+        <td>@test.passes</td>
+        <td>@test.failures</td>
+        <td>@test.unique_builds</td>
+        <td>@test.most_common_failure_message</td>
+      </tr>
+    }
+    </table>
+  </div>
+}
