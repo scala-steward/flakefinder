@@ -30,3 +30,7 @@ docker run flake -e DB_PASSWORD=foo -e DB_USERNAME=bar -e DB_HOST=localhost
 ```
 DB_PASSWORD=foo DB_USERNAME=bar DB_HOST=localhost sbt run
 ```
+
+# Screenshot
+
+![Flakefinder JUnit Test Summary](https://github.com/henricook/flakefinder/raw/main/docs/screenshots/summary.png)
