@@ -10,3 +10,5 @@ create table public.test_cases
     organisation_id text             not null,
     failure_message text
 );
+
+CREATE INDEX ix_test_cases_organisation_id ON test_cases (organisation_id);

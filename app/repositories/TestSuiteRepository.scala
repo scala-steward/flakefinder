@@ -41,9 +41,9 @@ case class TestSuiteRepository @Inject() (config: Configuration) {
              COUNT(CASE WHEN test_pass=false THEN 1 END) AS failures,
              COUNT(DISTINCT(build_id)) AS unique_builds,
              ROUND(AVG(test_time), 2) AS average_run_time_seconds,
-
+             (SELECT ROUND(test_time, 2) FROM test_cases WHERE organisation_id=$organisationId AND test_name=tc.test_name ORDER BY timestamp DESC LIMIT 1) AS last_run_time_seconds,
              failure_message AS most_common_failure_message
-          FROM test_cases
+          FROM test_cases tc
           WHERE organisation_id=$organisationId
           GROUP BY test_name, failure_message
           ORDER BY failures DESC, unique_builds, failure_message DESC""".query[TestSummaryDto].to[List]
