@@ -10,6 +10,9 @@
         Test Name
       </th>
       <th width="5%">
+        Feature File
+      </th>
+      <th width="5%">
         Average Run Time (Seconds)
       </th>
       <th width="5%">
@@ -24,13 +27,14 @@
       <th width="5%">
         Present in unique builds
       </th>
-      <th width="45%">
+      <th width="40%">
         Most common failure message
       </th>
     </tr>
     @summary.map { test =>
       <tr>
         <td>@test.test_name</td>
+        <td>@test.feature_file_name</td>
         <td>@test.average_run_time_seconds</td>
         <td>@test.last_run_time_seconds</td>
         <td>@test.passes</td>
