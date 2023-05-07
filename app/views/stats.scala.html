@@ -1,48 +1,54 @@
 @import dtos.persistence.TestSummaryDto
 @(organisationId: String, summary: List[TestSummaryDto])
 
-@main("Test Stats for " + organisationId) {
-  <h1>Test Stats for @organisationId</h1>
-  <div>
-    <table border="1" width="100%">
-    <tr>
-      <th width="30%">
-        Test Name
-      </th>
-      <th width="5%">
-        Feature File
-      </th>
-      <th width="5%">
-        Average Run Time (Seconds)
-      </th>
-      <th width="5%">
-        Last Run Time (Seconds)
-      </th>
-      <th width="5%">
-        All time passes
-      </th>
-      <th width="5%">
-        All time failures
-      </th>
-      <th width="5%">
-        Present in unique builds
-      </th>
-      <th width="40%">
-        Most common failure message
-      </th>
-    </tr>
-    @summary.map { test =>
-      <tr>
-        <td>@test.test_name</td>
-        <td>@test.feature_file_name</td>
-        <td>@test.average_run_time_seconds</td>
-        <td>@test.last_run_time_seconds</td>
-        <td>@test.passes</td>
-        <td>@test.failures</td>
-        <td>@test.unique_builds</td>
-        <td>@test.most_common_failure_message</td>
-      </tr>
+    @main("Test Stats for " + organisationId) {
+        <h1>Test Stats for @organisationId</h1>
+        <div>
+            <table border="1" width="100%" class="sortable">
+                <thead>
+                    <tr>
+                        <th width="30%">
+                            Test Name
+                        </th>
+                        <th width="5%">
+                            Feature File
+                        </th>
+                        <th width="5%">
+                            Average Run Time (Seconds)
+                        </th>
+                        <th width="5%">
+                            Last Run Time (Seconds)
+                        </th>
+                        <th width="5%">
+                            All time passes
+                        </th>
+                        <th width="5%">
+                            All time failures
+                        </th>
+                        <th width="5%">
+                            Present in unique builds
+                        </th>
+                        <th width="40%">
+                            Most common failure message
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                @summary.map { test =>
+                    <tr>
+                        <td>@test.test_name</td>
+                        <td>@test.feature_file_name</td>
+                        <td>@test.average_run_time_seconds</td>
+                        <td>@test.last_run_time_seconds</td>
+                        <td>@test.passes</td>
+                        <td>@test.failures</td>
+                        <td>@test.unique_builds</td>
+                        <td>@test.most_common_failure_message</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <link href="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@@latest/sortable.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@@latest/sortable.min.js"></script>
     }
-    </table>
-  </div>
-}
