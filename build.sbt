@@ -24,7 +24,7 @@ libraryDependencies ++= List(
   "org.postgresql" % "postgresql"      % "42.6.0",
 
   // Test
-  "com.lihaoyi"            %% "pprint"             % "0.8.1"   % Test,
+  "com.lihaoyi"            %% "pprint"             % "0.9.0"   % Test,
   "org.mockito"            %% "mockito-scala"      % "1.17.14" % Test,
   "org.scalatest"          %% "scalatest"          % "3.2.15"  % Test,
 )
